@@ -2,22 +2,11 @@ import './App.css';
 import { Heading, VStack } from '@chakra-ui/layout';
 import TodoLists from './components/TodoLists';
 import AddTodo from './components/AddTodo';
-import { IconButton } from '@chakra-ui/react';
+import { IconButton, useColorMode } from '@chakra-ui/react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
 function App() {
-  const initialTodos = [
-    {
-      id: 1,
-      body: 'Complete Chakra UI learning'
-    },
-    {
-      id: 2,
-      body: 'Start working on your task'
-    }
-  ]
-
   const [todos, setTodos] = useState(
     () => JSON.parse(localStorage.getItem('todos')) || []
   );
@@ -35,14 +24,18 @@ function App() {
     setTodos([...todos, todo]);
   }
 
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
       <VStack p={4}>
         <IconButton
-          icon={<FaSun />}
+          icon={colorMode === 'light' ? <FaSun /> : <FaMoon />}
           isRound="true"
           size="lg"
           alignSelf="flex-end"
+          onClick={toggleColorMode}
         />
+        <useColorMode></useColorMode>
         <Heading
           mb="8"
           fontWeight="extrabold"
